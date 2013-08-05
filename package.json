@@ -17,5 +17,8 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jarofghosts/yeti/issues"
+  },
+  "dependencies": {
+    "nano": "~4.1.1"
   }
 }
