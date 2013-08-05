@@ -19,6 +19,7 @@
     "url": "https://github.com/jarofghosts/yeti/issues"
   },
   "dependencies": {
-    "nano": "~4.1.1"
+    "nano": "~4.1.1",
+    "restify": "~2.6.0"
   }
 }
