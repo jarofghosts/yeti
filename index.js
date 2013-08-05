@@ -1,4 +1,9 @@
 var nano = require('nano')('http://localhost:5984'),
-    router = require('route-emitter').createRouter(),
+    http = require('http'),
     db = nano.db.use('yeti'),
     users = require('./lib/user.js')(db);
+
+http.createServer(function (req, res) {
+
+}).listen(4371);
+
