@@ -1,9 +1,6 @@
 var nano = require('nano')('http://localhost:5984'),
-    http = require('http'),
+    restify = require('restify'),
     db = nano.db.use('yeti'),
     users = require('./lib/user.js')(db);
 
-http.createServer(function (req, res) {
-
-}).listen(4371);
 
