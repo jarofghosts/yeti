@@ -10,8 +10,13 @@ var nano = require('nano')('http://localhost:5984'),
       posts: require('./routes/post.js')
     };
 
-router.listen('get', '/user', users.getUser);
-router.listen('post', '/user', users.postUser);
-router.listen('put', '/user', users.putUser);
-router.listen('delete', '/user', users.deleteUser);
+router.listen('get', '/user', routes.users.getUser);
+router.listen('post', '/user', routes.users.postUser);
+router.listen('put', '/user', routes.users.putUser);
+router.listen('delete', '/user', routes.users.deleteUser);
+
+router.listen('get', '/post', routes.posts.getPost);
+router.listen('post', '/post', routes.posts.postPost);
+router.listen('put', '/post', routes.posts.putPost);
+router.listen('delete', '/post', routes.posts.deletePost);
 
