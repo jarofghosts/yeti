@@ -1,5 +1,6 @@
 var nano = require('nano')('http://localhost:5984'),
     db = nano.db.use('yeti'),
+    http = require('http'),
     cookies = require('cookies'),
     Session = require('redis-sessions'),
     rs = new Session(),
@@ -19,4 +20,14 @@ router.listen('get', '/post', routes.posts.getPost);
 router.listen('post', '/post', routes.posts.postPost);
 router.listen('put', '/post', routes.posts.putPost);
 router.listen('delete', '/post', routes.posts.deletePost);
+
+http.createServer(function (req, res) {
+  parseParams(req, function (err, params) {
+    if (err) {
+      res.writeHead(503);
+      res.end('Error!');
+    }
+    router.route(req, res);
+  });
+}).listen(8000);
 
