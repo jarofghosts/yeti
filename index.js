@@ -24,6 +24,16 @@ router.listen('post', '/post', routes.posts.postPost);
 router.listen('put', '/post', routes.posts.putPost);
 router.listen('delete', '/post', routes.posts.deletePost);
 
+router.listen('get', '/reply', routes.replies.getReply);
+router.listen('post', '/reply', routes.replies.postReply);
+router.listen('put', '/reply', routes.replies.putReply);
+router.listen('delete', '/reply', routes.replies.deleteReply);
+
+router.listen('get', '/message', routes.messages.getMessage);
+router.listen('post', '/message', routes.messages.postMessage);
+router.listen('put', '/message', routes.messages.putMessage);
+router.listen('delete', '/message', routes.messages.deleteMessage);
+
 http.createServer(function (req, res) {
   parseParams(req, function (err, params) {
     if (err) {
