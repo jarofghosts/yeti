@@ -34,6 +34,11 @@ router.listen('post', '/message', routes.messages.postMessage);
 router.listen('put', '/message', routes.messages.putMessage);
 router.listen('delete', '/message', routes.messages.deleteMessage);
 
+router.listen('get', '/category', routes.categories.getCategory);
+router.listen('post', '/category', routes.categories.postCategory);
+router.listen('put', '/category', routes.categories.putCategory);
+router.listen('delete', '/category', routes.categories.deleteCategory);
+
 http.createServer(function (req, res) {
   parseParams(req, function (err, params) {
     if (err) {
