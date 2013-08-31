@@ -8,7 +8,10 @@ var nano = require('nano')('http://localhost:5984'),
     parseParams = require('http-params').parse,
     routes = {
       users: require('./routes/user.js'),
-      posts: require('./routes/post.js')
+      posts: require('./routes/post.js'),
+      replies: require('./routes/reply.js'),
+      messages: require('./routes/message.js'),
+      categories: require('./routes/category.js')
     };
 
 router.listen('get', '/user', routes.users.getUser);
