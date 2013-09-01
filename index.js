@@ -1,7 +1,7 @@
 var nano = require('nano')('http://localhost:5984'),
     db = nano.db.use('yeti'),
     http = require('http'),
-    cookies = require('cookies'),
+    Cookies = require('cookies').Cookies,
     Session = require('redis-sessions'),
     rs = new Session(),
     router = require('route-emitter').createRouter(),
@@ -42,10 +42,22 @@ router.listen('delete', '/category', routes.categories.deleteCategory);
 http.createServer(function (req, res) {
   parseParams(req, function (err, params) {
     if (err) {
-      res.writeHead(503);
-      res.end('Error!');
+      res.writeHead(500);
+      return res.end('Error!');
     }
-    router.route(req, res);
+    var cookies = new Cookies(req, res),
+        token = cookies.get('token');
+    req.params = params;
+    req.session = null;
+    if (!token) return router.route(req, res);
+    rs.get({ app: 'yeti', token: token }, function (err, session) {
+      if (err) {
+        res.writeHead(403);
+        return res.end('Can\'t do that!');
+      }
+      req.session = session;
+      router.route(req, res);
+    });
   });
 }).listen(8000);
 
