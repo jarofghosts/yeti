@@ -7,11 +7,11 @@ var nano = require('nano')('http://localhost:5984'),
     router = require('route-emitter').createRouter(),
     parseParams = require('http-params').parse,
     routes = {
-      users: require('./routes/user.js'),
-      posts: require('./routes/post.js'),
-      replies: require('./routes/reply.js'),
-      messages: require('./routes/message.js'),
-      categories: require('./routes/category.js')
+      users: require('./routes/user.js')(db),
+      posts: require('./routes/post.js')(db),
+      replies: require('./routes/reply.js')(db),
+      messages: require('./routes/message.js')(db),
+      categories: require('./routes/category.js')(db)
     },
     package = require('./package.json'),
     yeti = { name: 'yeti', version: package.version };
