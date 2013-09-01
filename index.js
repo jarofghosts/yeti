@@ -12,7 +12,14 @@ var nano = require('nano')('http://localhost:5984'),
       replies: require('./routes/reply.js'),
       messages: require('./routes/message.js'),
       categories: require('./routes/category.js')
-    };
+    },
+    package = require('./package.json'),
+    yeti = { name: 'yeti', version: package.version };
+
+router.listen('get', '/', function (req, res) {
+  res.writeHead(200);
+  res.end(JSON.stringify(yeti));
+});
 
 router.listen('get', '/user', routes.users.getUser);
 router.listen('post', '/user', routes.users.postUser);
