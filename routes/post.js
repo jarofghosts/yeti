@@ -2,7 +2,7 @@ module.exports = function (db) {
 
   return {
 
-    insertPost: function (req, res) {
+    postPost: function (req, res) {
     },
 
     getPost: function (req, res) {
@@ -11,7 +11,7 @@ module.exports = function (db) {
     deletePost: function (req, res) {
     },
 
-    updatePost: function (req, res) {
+    putPost: function (req, res) {
     }
 
   };
