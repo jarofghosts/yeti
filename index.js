@@ -11,7 +11,8 @@ var nano = require('nano')('http://localhost:5984'),
       posts: require('./routes/post.js')(db),
       replies: require('./routes/reply.js')(db),
       messages: require('./routes/message.js')(db),
-      categories: require('./routes/category.js')(db)
+      categories: require('./routes/category.js')(db),
+      auth: require('./routes/auth.js')(db)
     },
     package = require('./package.json'),
     yeti = { name: 'yeti', version: package.version };
@@ -45,6 +46,10 @@ router.listen('get', '/category', routes.categories.getCategory);
 router.listen('post', '/category', routes.categories.postCategory);
 router.listen('put', '/category', routes.categories.putCategory);
 router.listen('delete', '/category', routes.categories.deleteCategory);
+
+router.listen('put', '/login', routes.auth.putLogin);
+router.listen('put', '/logout', routes.auth.putLogout);
+router.listen('post', '/register', routes.auth.postRegister);
 
 http.createServer(function (req, res) {
   parseParams(req, function (err, params) {
