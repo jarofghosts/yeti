@@ -49,6 +49,7 @@ router.listen('delete', '/category', routes.categories.deleteCategory);
 
 router.listen('put', '/login', routes.auth.putLogin);
 router.listen('put', '/logout', routes.auth.putLogout);
+router.listen('get', '/logout', routes.auth.putLogout);
 router.listen('post', '/register', routes.auth.postRegister);
 
 http.createServer(function (req, res) {
