@@ -12,7 +12,7 @@ var nano = require('nano')('http://localhost:5984'),
       replies: require('./routes/reply.js')(db),
       messages: require('./routes/message.js')(db),
       categories: require('./routes/category.js')(db),
-      auth: require('./routes/auth.js')(db)
+      auth: require('./routes/auth.js')(db, rs)
     },
     package = require('./package.json'),
     yeti = { name: 'yeti', version: package.version };
@@ -68,6 +68,7 @@ http.createServer(function (req, res) {
         res.writeHead(403);
         return res.end('Can\'t do that!');
       }
+      session.token = token;
       req.session = session;
       router.route(req, res);
     });
