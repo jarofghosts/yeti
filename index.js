@@ -3,9 +3,6 @@ var nano = require('nano')('http://localhost:5984'),
     http = require('http'),
     Cookies = require('cookies').Cookies,
     Session = require('redis-sessions'),
-    rs = new Session(),
-    router = require('route-emitter').createRouter(),
-    parseParams = require('http-params').parse,
     routes = {
       users: require('./routes/user.js')(db),
       posts: require('./routes/post.js')(db),
@@ -14,43 +11,18 @@ var nano = require('nano')('http://localhost:5984'),
       categories: require('./routes/category.js')(db),
       auth: require('./routes/auth.js')(db, rs)
     },
+    rs = new Session(),
+    router = require('route-emitter').createRouter(),
+    parseParams = require('http-params').parse,
     package = require('./package.json'),
     yeti = { name: 'yeti', version: package.version };
+
+router = require('./routes/setup.js')(router, routes);
 
 router.listen('get', '/', function (req, res) {
   res.writeHead(200);
   res.end(JSON.stringify(yeti));
 });
-
-router.listen('get', '/user', routes.users.getUser);
-router.listen('post', '/user', routes.users.postUser);
-router.listen('put', '/user', routes.users.putUser);
-router.listen('delete', '/user', routes.users.deleteUser);
-
-router.listen('get', '/post', routes.posts.getPost);
-router.listen('post', '/post', routes.posts.postPost);
-router.listen('put', '/post', routes.posts.putPost);
-router.listen('delete', '/post', routes.posts.deletePost);
-
-router.listen('get', '/reply', routes.replies.getReply);
-router.listen('post', '/reply', routes.replies.postReply);
-router.listen('put', '/reply', routes.replies.putReply);
-router.listen('delete', '/reply', routes.replies.deleteReply);
-
-router.listen('get', '/message', routes.messages.getMessage);
-router.listen('post', '/message', routes.messages.postMessage);
-router.listen('put', '/message', routes.messages.putMessage);
-router.listen('delete', '/message', routes.messages.deleteMessage);
-
-router.listen('get', '/category', routes.categories.getCategory);
-router.listen('post', '/category', routes.categories.postCategory);
-router.listen('put', '/category', routes.categories.putCategory);
-router.listen('delete', '/category', routes.categories.deleteCategory);
-
-router.listen('put', '/login', routes.auth.putLogin);
-router.listen('put', '/logout', routes.auth.putLogout);
-router.listen('get', '/logout', routes.auth.putLogout);
-router.listen('post', '/register', routes.auth.postRegister);
 
 http.createServer(function (req, res) {
   parseParams(req, function (err, params) {
