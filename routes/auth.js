@@ -1,3 +1,5 @@
+var bcrypt = require('bcrypt');
+
 module.exports = function (db, rs) {
 
   return {
@@ -10,7 +12,7 @@ module.exports = function (db, rs) {
         res.writeHead(403);
         return res.end('errrrrorrrr');
       }
-      db.view('users', 'by_username',
+      db.view('users', 'password_by_username',
         { keys: [req.params.username] },
         function (err, body) {
           if (err) {
@@ -18,6 +20,22 @@ module.exports = function (db, rs) {
             return res.end(err);
           }
 
+          if (!body.rows.length) {
+            res.writeHead(404);
+            return res.end('nuh uh');
+          }
+          
+          bcrypt.compare(req.params.password,
+            body.rows[0].value,
+            function (err, res) {
+              if (!res) {
+                res.writeHead(403);
+                return res.end('nope');
+              }
+
+
+
+            });
         });
     },
 
