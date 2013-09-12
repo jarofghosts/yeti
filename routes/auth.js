@@ -6,6 +6,19 @@ module.exports = function (db, rs) {
     },
 
     putLogin: function (req, res) {
+      if (!req.params.username || !req.params.password) {
+        res.writeHead(403);
+        return res.end('errrrrorrrr');
+      }
+      db.view('users', 'by_username',
+        { keys: [req.params.username] },
+        function (err, body) {
+          if (err) {
+            res.writeHead(500);
+            return res.end(err);
+          }
+
+        });
     },
 
     putLogout: function (req, res) {
