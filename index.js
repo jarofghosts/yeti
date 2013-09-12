@@ -17,29 +17,25 @@ var nano = require('nano')('http://localhost:5984'),
     package = require('./package.json'),
     yeti = { name: 'yeti', version: package.version };
 
+http.ServerResponse.prototype.send = require('http-json-response');
+
 router = require('./routes/setup.js')(router, routes);
 
 router.listen('get', '/', function (req, res) {
-  res.writeHead(200);
-  res.end(JSON.stringify(yeti));
+  res.send(yeti);
 });
 
 http.createServer(function (req, res) {
   parseParams(req, function (err, params) {
-    if (err) {
-      res.writeHead(500);
-      return res.end('Error!');
-    }
+    if (err) return res.send(500, { success: false, message: 'Error processing request' });
     var cookies = new Cookies(req, res),
         token = cookies.get('token');
     req.params = params;
     req.session = null;
     if (!token) return router.route(req, res);
     rs.get({ app: 'yeti', token: token }, function (err, session) {
-      if (err) {
-        res.writeHead(403);
-        return res.end('Can\'t do that!');
-      }
+      if (err) return res.send(403, { success: false, message: 'Invalid token' });
+
       session.token = token;
       req.session = session;
       router.route(req, res);
