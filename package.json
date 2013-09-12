@@ -19,7 +19,7 @@
     "url": "https://github.com/jarofghosts/yeti/issues"
   },
   "dependencies": {
-    "bcrypt": "~0.7.6",
+    "bcrypt": "~0.7.7",
     "redis-sessions": "~0.2.0",
     "cookies": "~0.3.6",
     "route-emitter": "0.0.4",
