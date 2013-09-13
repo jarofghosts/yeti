@@ -15,8 +15,14 @@ var nano = require('nano')('http://localhost:5984'),
       rs: rs,
       sendJson: require('http-json-response'),
       error: function (obj) {
+        if (typeof obj == 'string') obj = { message: obj };
+        obj = xtend({ success: false }, obj);
+        return obj;
       },
       response: function (obj) {
+        if (typeof obj == 'string') obj = { message: obj };
+        obj = xtend({ success: false }, obj);
+        return obj;
       }
     },
     routes = {

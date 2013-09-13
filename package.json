@@ -24,6 +24,7 @@
     "cookies": "~0.3.6",
     "route-emitter": "0.0.4",
     "http-params": "0.0.6",
-    "http-json-response": "0.0.0"
+    "http-json-response": "0.0.0",
+    "xtend": "~2.1.1"
   }
 }
