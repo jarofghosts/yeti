@@ -1,6 +1,6 @@
 var bcrypt = require('bcrypt');
 
-module.exports = function (db, rs) {
+module.exports = function (yeti) {
 
   return {
 
