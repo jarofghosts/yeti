@@ -14,14 +14,14 @@ var nano = require('nano')('http://localhost:5984'),
       db: db,
       rs: rs,
       sendJson: require('http-json-response'),
-      error: function (obj) {
+      Error: function (obj) {
         if (typeof obj == 'string') obj = { message: obj };
         obj = xtend({ success: false }, obj);
         return obj;
       },
-      response: function (obj) {
+      Response: function (obj) {
         if (typeof obj == 'string') obj = { message: obj };
-        obj = xtend({ success: false }, obj);
+        obj = xtend({ success: true }, obj);
         return obj;
       }
     },
@@ -42,7 +42,7 @@ router.listen('get', '/', function (req, res) {
 
 http.createServer(function (req, res) {
   parseParams(req, function (err, params) {
-    if (err) return yeti.sendJson(res, 500, { success: false, message: 'Error processing request' });
+    if (err) return yeti.sendJson(res, 500, new yeti.Error('Error processing request'));
     var cookies = new Cookies(req, res),
         token = cookies.get('token');
     req.params = params;
