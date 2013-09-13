@@ -38,8 +38,8 @@ module.exports = function (db, rs) {
                     res.writeHead(500);
                     res.end('nope');
                   }
-                  res.end(JSON.stringify({ success: true, token: resp.token });
-                }
+                  res.end(JSON.stringify({ success: true, token: resp.token }));
+                });
             });
         });
     },
