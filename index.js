@@ -13,7 +13,11 @@ var nano = require('nano')('http://localhost:5984'),
       },
       db: db,
       rs: rs,
-      sendJson: require('http-json-response')
+      sendJson: require('http-json-response'),
+      error: function (obj) {
+      },
+      response: function (obj) {
+      }
     },
     routes = {
       users: require('./routes/user.js')(yeti),
