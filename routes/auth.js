@@ -8,37 +8,22 @@ module.exports = function (yeti) {
     },
 
     putLogin: function (req, res) {
-      if (!req.params.username || !req.params.password) {
-        res.writeHead(403);
-        return res.end('errrrrorrrr');
-      }
+      if (!req.params.username || !req.params.password) return yeti.sendJson(403, new yeti.Error('Send credetials')); 
       db.view('users', 'password_by_username',
         { keys: [req.params.username] },
         function (err, body) {
-          if (err) {
-            res.writeHead(500);
-            return res.end(err);
-          }
+          if (err) return yeti.sendJson(500, new yeti.Error('Database error'));
 
-          if (!body.rows.length) {
-            res.writeHead(404);
-            return res.end('nuh uh');
-          }
+          if (!body.rows.length) return yeti.sendJson(404, new yeti.Error('No such user')); 
           
           bcrypt.compare(req.params.password,
             body.rows[0].value,
             function (err, matches) {
-              if (!matches) {
-                res.writeHead(403);
-                return res.end('nope');
-              }
+              if (!matches) return yeti.sendJson(403, new yeti.Error('Authentication failed')); 
               rs.create({ app: 'yeti', id: req.params.username },
                 function (err, resp) {
-                  if (err) {
-                    res.writeHead(500);
-                    res.end('nope');
-                  }
-                  res.end(JSON.stringify({ success: true, token: resp.token }));
+                  if (err) return yeti.sendJson(500, new yeti.Error('Session error')); 
+                  yeti.sendJson(new yeti.Response({ token: resp.token }));
                 });
             });
         });
