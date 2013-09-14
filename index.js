@@ -9,8 +9,7 @@ var nano = require('nano')('http://localhost:5984'),
     package = require('./package.json'),
     yeti = {
       app: { name: 'yeti',
-             version: package.version
-      },
+             version: package.version },
       db: db,
       rs: rs,
       sendJson: require('http-json-response'),
@@ -49,7 +48,7 @@ http.createServer(function (req, res) {
     req.session = null;
     if (!token) return router.route(req, res);
     rs.get({ app: 'yeti', token: token }, function (err, session) {
-      if (err) return yeti.sendJson(res, 403, { success: false, message: 'Invalid token' });
+      if (err) return yeti.sendJson(res, 403, new yeti.Error('Invalid token'));
 
       session.token = token;
       req.session = session;
