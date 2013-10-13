@@ -14,7 +14,6 @@ module.exports = function (db) {
     putUser: function (req, res) {
     }
 
-  };
-
-};
+  }
+}
 

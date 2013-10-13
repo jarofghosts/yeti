@@ -14,7 +14,6 @@ module.exports = function (db) {
     putPost: function (req, res) {
     }
 
-  };
-
-};
+  }
+}
 

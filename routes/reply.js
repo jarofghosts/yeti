@@ -14,7 +14,6 @@ module.exports = function (db) {
     putReply: function (req, res) {
     }
 
-  };
-
-};
+  }
+}
 
