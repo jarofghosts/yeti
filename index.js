@@ -14,14 +14,14 @@ var nano = require('nano')('http://localhost:5984'),
       rs: rs,
       sendJson: require('http-json-response'),
       Error: function (obj) {
-        if (typeof obj == 'string') obj = { message: obj };
-        obj = xtend({ success: false }, obj);
-        return obj;
+        if (typeof obj == 'string') obj = { message: obj }
+        obj = xtend({ success: false }, obj)
+        return obj
       },
       Response: function (obj) {
-        if (typeof obj == 'string') obj = { message: obj };
-        obj = xtend({ success: true }, obj);
-        return obj;
+        if (typeof obj == 'string') obj = { message: obj }
+        obj = xtend({ success: true }, obj)
+        return obj
       }
     },
     routes = {
