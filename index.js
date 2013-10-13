@@ -31,29 +31,31 @@ var nano = require('nano')('http://localhost:5984'),
       messages: require('./routes/message.js')(yeti),
       categories: require('./routes/category.js')(yeti),
       auth: require('./routes/auth.js')(yeti)
-    };
+    }
 
-router = require('./routes/setup.js')(router, routes);
+router = require('./routes/setup.js')(router, routes)
 
 router.listen('get', '/', function (req, res) {
-  res.send(yeti.app);
-});
+  res.send(yeti.app)
+})
 
 http.createServer(function (req, res) {
-  parseParams(req, function (err, params) {
-    if (err) return yeti.sendJson(res, 500, new yeti.Error('Error processing request'));
+  parseParams(req, onParsed.bind(this))
+  function onParsed(err, params) {
+    if (err) return yeti.sendJson(res, 500, new yeti.Error('Error processing request'))
     var cookies = new Cookies(req, res),
-        token = cookies.get('token');
-    req.params = params;
-    req.session = null;
-    if (!token) return router.route(req, res);
-    rs.get({ app: 'yeti', token: token }, function (err, session) {
-      if (err) return yeti.sendJson(res, 403, new yeti.Error('Invalid token'));
+        token = cookies.get('token')
+    req.params = params
+    req.session = null
+    if (!token) return router.route(req, res)
+    rs.get({ app: 'yeti', token: token }, withSession.bind(this))
+    function withSession(err, session) {
+      if (err) return yeti.sendJson(res, 403, new yeti.Error('Invalid token'))
 
-      session.token = token;
-      req.session = session;
-      router.route(req, res);
-    });
-  });
-}).listen(8000);
+      session.token = token
+      req.session = session
+      router.route(req, res)
+    }
+  }
+}).listen(8000)
 
